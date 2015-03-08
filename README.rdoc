@@ -1,2 +1,10 @@
 == README
+This application helps you to plan your daily / weekly / monthly cooking schedule and share it with your family members.
+It has repository of recipes.
+Pick a recipe and add it to your calender
+
+To set up this application, download the code and execute the following rake task
+
+rake set_up_system:start
+
 
