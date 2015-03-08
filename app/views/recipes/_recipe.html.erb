@@ -1,0 +1,30 @@
+  <li class="media">
+    <div class="media-left">      
+      <%= link_to recipe_image_tag(recipe,'thumb','recipe-pic media-object'),recipe %>              
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading"><%= link_to recipe.name,recipe %></h4>
+      <div class="desc"><%= recipe.short_description %></div>
+
+      <% if show_categories==true %>
+        <div class='margin-top-sm'>
+        <%= link_to "<i class='fa fa-tag'></i> #{recipe.category.name}".html_safe,recipe.category,:class=>'label label-warning' %>
+        </div>
+      <% end %>
+      <div class="recipe-info margin-top-sm">        
+        <% if recipe.recipe_type==PRIVATE %>
+            <span class='margin-right-sm' title='Shared with family members only'><i class='fa fa-group'></i></span>
+        <% else %>
+            <span class='margin-right-sm' title='Shared with everyone'><i class='fa fa-globe'></i></span>
+        <% end %>        
+      	<span class="margin-right-sm">
+          <%= diet_type_icon(recipe) %>
+        </span>
+      	<span class="margin-right-sm" title="Preperation time"><i class='fa fa-clock-o'></i> <%= time_taken(recipe) %>
+        </span>
+        <span class="margin-right-sm text-muted"><small>created by <%= link_to recipe.user.name,recipe.user %> <%= time_ago_in_words(recipe.created_at) %></small> 
+        </span>
+      </div>
+    </div>
+    <hr>	
+</li>

@@ -1,0 +1,21 @@
+<div class="page-header">
+	<h4><%= @category.name %>
+		<%= link_to 'New Recipe', new_recipe_path(:category=>@category.slug),:class=>'pull-right btn btn-primary btn-sm' %>		
+		<% if current_user==@category.user %>
+			<%= link_to 'Edit Category', edit_category_path(@category),:class=>'pull-right btn btn-primary btn-sm margin-right-sm' %>		
+		<% end %>
+		<%= link_to 'Back', categories_path,:class=>'pull-right btn btn-primary btn-sm margin-right-sm' %>
+	</h4>
+
+</div>
+<div class="col-lg-12 col-md-12 list-group">
+<% if !@recipes.empty? %>
+<ul class="media-list"> 
+	<% @recipes.each do |recipe| %>
+	<%= render :partial=>'recipes/recipe',:object=>recipe,:locals=>{:show_categories=>false} %>
+	<% end %>
+</ul>
+<% else %>
+	<p>No recipes created yet.</p>
+<% end %>
+</div>

@@ -1,0 +1,16 @@
+<div class="page-header">
+  <h4>Join Family
+    
+  </h4>
+
+</div>
+<div class='col-lg-12 col-md-12'>
+
+	<%= form_tag(joining_family_path) do %>
+		<div class="input-group">
+			<%= text_field_tag 'access_code','',:placeholder=>'Enter the access code' %><br>
+			<%= submit_tag "Join",:class=>'btn btn-primary btn-sm margin-top-md' %>
+		</div>
+	<% end %>
+</div>
+

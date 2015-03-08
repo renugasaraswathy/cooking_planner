@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cooking Planner</title>
+  <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
+<%= stylesheet_link_tag "main" %>
+<%= stylesheet_link_tag "zabuto_calendar.min" %>
+
+<%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+<div class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar-content">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">Cooking Planner</a>
+		</div>
+		<div class="collapse navbar-collapse" id="mynavbar-content">
+			<ul class="nav navbar-nav">				
+				<li class="<%= active_class(params[:controller],"categories") %>">
+					<a href="/categories"><i class='fa fa-list'></i> Recipe categories</a>
+				</li>
+				<% if current_user.family %>
+					<li class="<%= active_class(params[:controller],"families") %>">
+						<a href="/families/<%= current_user.family.slug 	%>"><i class='fa fa-group'></i> Your Family</a>
+					</li>				
+				<% end %>
+			</ul>
+			<p class="navbar-text navbar-right">
+				<span class="margin-right-sm">Welcome <%= current_user.name %>!</span>
+				<%= link_to('Logout', destroy_user_session_path, :method => :delete,:class=>'margin-right-sm') %>  
+			</p>
+		</div>
+	</div>
+</div>
+<div class="container">
+<%= flash_message %>
+<%= yield %>
+</div>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

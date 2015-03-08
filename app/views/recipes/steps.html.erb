@@ -1,0 +1,84 @@
+<div class="page-header">
+	<h4>Edit Recipe</h4>
+</div>
+<%= render :partial=>'tabs' %>	
+<div class="margin-top-md">
+	
+	<%= form_tag(:action=>'save_steps') do %>
+	<table id="sub_categories" class="table table-bordered">
+	<tr>
+		<th>Steps</th>
+		<th>Details</th>
+		<th>Remove</th>
+	</tr>	
+	<% if @recipe_steps.empty? %>
+		<tr>
+			<td>1</td>
+			<td>
+				<%= text_field_tag "[step][desc][]","",:class=>'form-control margin-top-sm',:placeholder=>'Enter details' %>
+				<%= hidden_field_tag "[step][step_no][]",1 %>
+			</td>
+			<td>
+				<span class='delete'><i class='fa fa-minus-circle'></i></span>
+			</td>			
+		</tr>
+	<% else %>
+		<% @recipe_steps.each do |r| %>
+			<tr>
+				<td><%= r.step_no %></td>
+				<td>
+					<%= text_field_tag "[step][desc][]",r.description,:class=>'form-control margin-top-sm',:placeholder=>'Enter details' %>
+					<%= hidden_field_tag "[step][step_no][]",r.step_no %>
+				</td>
+				<td>
+					<span class='delete'><i class='fa fa-minus-circle'></i></span>
+				</td>
+			</tr>
+		<% end %>
+	<% end %>	
+	</table>
+	<div>
+		<a href='#' id='add-category'>Add step</a>
+	</div>
+	<%= submit_tag "Save",:class=>'btn btn-primary' %>	
+	<% end %>
+</div>
+<script type="text/javascript">
+  
+  function update_previous_elements_step_nos(ele)
+  {
+  	var tr=$(ele).parent().parent();
+  	alert(tr.children().length);
+  	if(tr.children().length>1)
+  	{
+  		var first=tr.children()[0]; 
+  		var second=tr.children()[1];
+  		console.log(first);
+  		console.log(second);
+  		var hidden_input=$(second).find('input[type=hidden]:first'); 
+  		console.log(hidden_input);
+  		$(first).text(0);		
+  		hidden_input.val(0);
+	}
+  	
+
+  }	
+
+  function load_js()
+  {
+	  $('.delete').click(function(){
+	  	$(this).parent().parent().remove();
+	  	update_previous_elements_step_nos(this);
+	  });
+	  	
+  };
+  load_js();
+  $( "#add-category" ).click(function() {      	
+  	var count=$('#sub_categories > tbody').children().length;  	  	
+  	$("#sub_categories > tbody").append("<tr><td>"+count+"</td><td><input type='text' name='[step][desc][]' placeholder='Enter details' class='form-control'><input type='hidden' value="+count+" name='[step][step_no][]'></td><td><span class='delete'><i class='fa fa-minus-circle'></i></span></td></tr>");
+  	load_js();
+  });
+
+
+  
+</script>

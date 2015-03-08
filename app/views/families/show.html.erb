@@ -1,0 +1,51 @@
+<div class="page-header">
+  <h4>
+  	<%= @family.name %>
+  	<% if current_user.family==@family %>  	
+  		<%= link_to 'Edit Family', edit_family_path(@family),:class=>'pull-right btn btn-primary btn-sm' %>		
+  	<% end %>
+  </h4>
+</div>
+
+<div class='col-lg-12 col-md-12'>
+	<div class='col-lg-8 col-md-8'>
+		<h3>Recipes from your family</h3>
+		<% if @family_recipes.any? %>
+			<ul class="media-list"> 
+				<% @family_recipes.each do |recipe| %>
+				<%= render :partial=>'recipes/recipe',:object=>recipe,:locals=>{:show_categories=>true} %>
+				<% end %>
+			</ul>		
+		<% else %>
+			<p>Not created yet. <%= link_to 'Click here',categories_path %> to view all recipies.</p>
+		<% end %>
+	</div>
+
+	<div class='col-lg-4 col-md-4'>
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title"><i class='fa fa-group'></i> Family Members</h3>
+		  </div>
+		  <div class="panel-body">
+		  	<ul>
+		  	<% @family.users.each do |user| %>
+		    	<li><%= link_to user.name,user %></li>
+		    <% end %>
+		    </ul>
+		  </div>
+		</div>
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title"><i class='fa fa-gear'></i> Access code </h3>
+		  </div>
+		  <div class="panel-body">
+		  	<p class='text-center'><strong><%= @family.access_code %></strong></p>
+		  	<hr>
+		  	<p><small>Share this access code with your family members to join you here.</small></p>
+		  </div>
+
+		</div>
+	</div>	
+</div>
+

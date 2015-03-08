@@ -1,0 +1,66 @@
+<div class="col-lg-12 col-md-12">
+
+<%= form_for(@recipe,:html => { :multipart => true }) do |f| %>
+  <% if @recipe.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+
+      <ul>
+      <% @recipe.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="form-group">
+    <%= f.label :short_description %><br>
+    <i>Tell us your experience with this recipe and its health benifits</i>
+    <%= f.text_area :description,:class=>'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :no_of_persons %><br>
+    <%= f.select :no_of_persons,(1..10).to_a %>
+  </div>
+  <div class="checkbox">
+    <label>
+    <%= f.hidden_field :has_prerequisites,:value=>0 %>
+    <%= f.check_box :has_prerequisites %>Has Prerequisties
+    </label>
+  </div>
+  <div class="form-group">
+    <%= f.label :recipe_type %><br>    
+    <%= f.select :recipe_type,[["sharing with my family members",1],["sharing with everyone",2]] %>
+  </div>
+  <div class="form-group">
+    <%= f.label :diet_type %><br>
+    <%= f.select :diet_type,[["Vegiterian",1],["Non Vegiterian",2]] %>
+  </div>
+  <div class="form-group">
+    <%= f.label :time_required %><br>
+    <%= f.select :hours,options_from_collection_for_select((0..12).to_a,'to_i','to_i',@recipe.show_hours) %>Hours:
+    <%= f.select :minutes,options_from_collection_for_select((0..59).to_a,'to_i','to_i',@recipe.show_minutes) %>Minutes    
+  </div>
+  <div class="form-group">
+    <%= f.label :categories %><br>    
+    <% if @recipe.category %>
+    <%= f.select "category_slug", options_from_collection_for_select(Category.all, :slug,:name,@recipe.category.slug) %>
+    <% else %>
+    <%= f.select "category_slug", options_from_collection_for_select(Category.all, :slug,:name) %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label "Recipe Picture" %><br>    
+    <%= f.file_field :picture %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Next",:class=>'btn btn-primary' %>
+  </div>
+<% end %>
+</div>

@@ -1,0 +1,50 @@
+<div class="page-header">
+  <h4>Categories
+    <%= link_to 'New Category', new_category_path,:class=>'pull-right btn btn-primary btn-sm' %>    
+  </h4>
+
+</div>
+<div class="col-lg-10 col-md-10 list-group">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <% if !@categories.empty? %>  
+    <% @categories.each do |category| %>
+    <div class="col-lg-12 col-md-12 margin-bottom-sm ">
+    <div class="panel panel-default">
+    <div class="panel-heading" role="tab">
+      <h4 class="panel-title">
+      <%= link_to "<i class='fa fa-list'></i> #{category.name} ( #{category.recipes_count(current_user)} )".html_safe,category %>         
+      </h4>
+    </div>
+    </div>
+  </div>
+  <% end %>
+  <div class='col-lg-12 col-md-12'>
+    <div class='pull-right'>
+      <%= will_paginate @categories,renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+  </div>
+<% else %>
+No categories yet
+<% end %>
+
+</div>
+
+
+
+<% if !@popular_categories.empty? %>
+<div class="col-lg-2 col-md-2 paddingReset">
+<div class="text-center">
+  <h4>Popular Categories</h4>
+</div>
+<hr>
+<ul class="list-unstyled">
+<% @popular_categories.each do |cat_id,count| %>
+<% if count>0 %>
+  <% cat=Category.find(cat_id) %>
+  <li class="margin-left-sm margin-top-sm"><i class="fa fa-star-o"></i> <%= link_to "#{cat.name} (#{count})",cat %></li>
+<% end %>
+<% end %>
+</ul>
+</div>
+<% end %>

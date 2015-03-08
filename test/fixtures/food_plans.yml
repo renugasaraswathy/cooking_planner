@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  family_id: 
+  day: 2015-03-07
+  food_type: 1
+
+two:
+  user_id: 
+  family_id: 
+  day: 2015-03-07
+  food_type: 1

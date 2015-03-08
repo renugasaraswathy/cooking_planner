@@ -1,0 +1,35 @@
+<% if !@recipe.new_record? %>
+  <ul class="nav nav-tabs">
+
+    <li role="presentation" class='<%= active_class('basic',controller.action_name) %>'>  	
+    	<%= link_to "Recipe",edit_recipe_path(@recipe.slug) %>
+    </li>  
+    <li role="presentation" class='<%= active_class('ingredients',controller.action_name) %>'>
+    	<%= link_to "Ingredients",ingredients_recipes_path(@recipe.slug) %>
+    </li>
+    <% if @recipe.has_prerequisites==true %>
+      <li role="presentation" class='<%= active_class('prerequisities',controller.action_name) %>'>  
+        <%= link_to "Prerequisities",prerequisities_recipes_path(@recipe.slug) %>
+      </li>
+    <% end %>
+    <li role="presentation" class='<%= active_class('steps',controller.action_name) %>'>
+      <%= link_to "Steps",steps_recipes_path(@recipe.slug) %>
+    </li> 
+    
+  </ul>
+<% else %>
+  <ul class="nav nav-tabs">
+
+    <li role="presentation" class='active'>    
+      <%= link_to "Recipe","#" %>
+    </li>  
+    <li role="presentation" class="disabled">
+      <%= link_to "Ingredients","#" %>
+    </li>    
+    <li role="presentation" class="disabled">
+      <%= link_to "Steps","#" %>
+    </li> 
+    
+  </ul>
+
+<% end %>

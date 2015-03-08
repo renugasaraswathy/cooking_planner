@@ -1,0 +1,28 @@
+<%= form_for(@family) do |f| %>
+  <% if @family.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(@family.errors.count, "error") %> prohibited this family from being saved:</h2>
+
+      <ul>
+      <% @family.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :access_code %><br>
+    <%= f.text_field :access_code %>
+    <p>This access code has to shared with your family members.</p>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "Save",:class=>'btn btn-primary' %>
+  </div>
+<% end %>

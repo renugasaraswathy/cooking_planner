@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h4>
+  	New Recipe
+  	<% if params[:category] and Category.find_by_slug(params[:category]) %>
+  		<%= link_to 'Back',Category.find_by_slug(params[:category]),:class=>'pull-right btn btn-primary btn-sm' %>
+  	<% else %>
+  		<%= link_to 'Back', recipes_path,:class=>'pull-right btn btn-primary btn-sm' %>  	
+  	<% end %>    
+  </h4>
+
+</div>
+<%= render :partial=>'tabs' %>	
+
+<%= render 'form' %>
+

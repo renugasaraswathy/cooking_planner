@@ -1,0 +1,17 @@
+<div class="page-header">
+	<h4><%= @user.name %>		
+	</h4>
+
+	<div class='col-lg-12 col-md-12'>
+		<h3>Recipes created</h3>
+		<% if @recipes.any? %>
+			<ul class="media-list"> 
+				<% @recipes.each do |recipe| %>
+				<%= render :partial=>'recipes/recipe',:object=>recipe,:locals=>{:show_categories=>true} %>
+				<% end %>
+			</ul>		
+		<% else %>
+			<p>Not created yet</p>
+		<% end %>
+	</div>	
+</div>

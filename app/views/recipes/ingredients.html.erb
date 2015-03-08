@@ -1,0 +1,126 @@
+<%= stylesheet_link_tag "jquery-ui.min.css" %>
+<div class="page-header">
+	<h4>Edit Recipe</h4>
+</div>
+
+<%= render :partial=>'tabs' %>
+<div class='margin-top-md'>
+	<%= form_tag(:action=>'save_ingredients') do %>
+	<table id='sub_categories' class='table table-bordered'>
+		<tr>
+			<td><strong>Ingredients</strong></td>
+			<td><strong>Weight</strong></td>
+			<td><strong>Unit</strong></td>
+			<td><strong>Remove</strong></td>
+		</tr>
+		<% if !@ingredients.empty? %>
+		<% @ingredients.each do |i| %>
+			<tr>
+				<td>
+					<input class="ingredient-autocomplete" type="text" name="name[]" value="<%= i.ingredient.name %>"/>
+				</td>
+				<td>
+					<input type="text" name="amount[]" value="<%= i.amount %>"/>
+				</td>
+				<td>
+					 <%= select_tag "unit[]", options_from_collection_for_select(UNITS,"first","second",{:selected=>i.unit}) %>
+				</td>
+				<td>
+					<span class='delete'><i class='fa fa-minus-circle'></i></span>
+				</td>			
+			</tr>		
+			<% end %>
+		<% else %>
+			<tr>
+				<td><input class="ingredient-autocomplete" type="text" name="name[]" /></td>
+				<td><input type="text" name="amount[]"/></td>
+				<td>
+					 <%= select_tag "unit[]", options_from_collection_for_select(UNITS,"first","second") %>
+				</td>
+				<td>
+					<span class='delete'><i class='fa fa-minus-circle'></i></span>
+				</td>			
+			</tr>
+		<% end %>	
+	</table>
+	<div><a href='#' id='add-category'>Add ingredient</a></div>
+	<%= submit_tag "Next",:class=>'btn btn-primary' %>	
+<% end %>
+</div>
+<script type="text/javascript">
+function findElement(arr, propName, propValue) {
+  for (var i=0; i < arr.length; i++)
+    if (arr[i][propName] == propValue)
+      return arr[i];
+
+  // will return undefined if not found; you could return a default instead
+}
+
+function load_js()
+{
+	var array;
+	$( "input.ingredient-autocomplete" ).autocomplete({
+	      source: function( request, response ) {	      	
+	        $.ajax({
+	            dataType: "json",
+	            type : 'Get',
+	            data: {
+	            	q: request.term
+	         	},
+	            url: '/recipes/ingredients_list',
+	            success: function(data) {
+	              $('input.ingredient-autocomplete').removeClass('ui-autocomplete-loading');  // hide loading image
+	              array=data;	              
+	            response( $.map( data, function(item) {
+	                // your operation on data
+	                	return item.name;
+	            }));
+	          },
+	          error: function(data) {
+	              $('input.ingredient-autocomplete').removeClass('ui-autocomplete-loading');  
+	          }
+	        });
+	      },
+	      minLength: 2,
+	      open: function() {
+
+	      },
+	      close: function() {
+
+	      },
+	      focus:function(event,ui) {
+
+	      },
+	      select: function( event, ui ) {
+	      	
+	      }
+	    });
+}
+
+function load_delete_onclick_js()
+{
+	$('.delete').click(function(){
+  	$(this).parent().parent().remove();
+  });
+}
+load_js();
+load_delete_onclick_js();
+</script>
+	
+<script type="text/javascript">
+
+  $( "#add-category" ).click(function() { 
+  	var count=$('#sub_categories > tbody').children().length;  	     	
+  	var s = $("<select name=\"unit[]\" />");
+  	<% UNITS.each do |unit| %>
+		s.append(new Option('<%= unit.second %>', '<%= unit.first %>'));
+	<% end %>
+  	$("#sub_categories > tbody").append("<tr><td><input class='ingredient-autocomplete' type='text' name='name[]'></td><td><input type='text' name='[amount][]'></td><td class='unit-parent-"+count+"'><td><span class='remove'><i class='fa fa-minus-circle'></i></td>");
+  	var name=".unit-parent-"+count;  	
+  	$(name).append(s);
+  	load_js();
+  	load_delete_onclick_js();
+  });
+
+  
+</script>
