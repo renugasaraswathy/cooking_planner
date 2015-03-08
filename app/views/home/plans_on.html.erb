@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h4>Planned recipes
+    <%= link_to 'Back', root_url,:class=>'pull-right btn btn-primary btn-sm' %>    
+  </h4>
+
+</div>
+
+<div class='col-lg-12 col-md-12'>
+<div class='panel panel-default'>
+	<div class="panel-heading text-center">
+    	<h3 class="panel-title"><%= Date.parse(params[:date]).strftime('%d - %b - %Y') %></h3>
+  	</div>
+  	<div class='panel-body'>
+	<div class='col-lg-5 col-md-5'>
+		<ul class="list-group">
+			<li class='li-heading'>Recipies planned</li>	
+			<%= render :partial=>'recipe_on_a_day',:locals=>{:day_food_plans=>@food_plans} %>	
+		</ul>
+	</div>
+	<div class='col-lg-7 col-md-7'>
+		<ul>
+			<li class='li-heading'>Ingredients required</li>
+			<%= render :partial=>'ingredients_for_a_day',:locals=>{:day_food_plans=>@food_plans} %>
+		</ul>
+	</div>
+	</div>
+</div>
+</div>

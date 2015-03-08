@@ -1,0 +1,28 @@
+<% ingredients_hash={} %>
+<li class='list-group-item'>
+	<% recipes=day_food_plans.collect(&:recipe) %>
+	<% recipes.each do |recipe| %>
+		<% recipe.recipe_ingredients.each do |recipe_ingredient| %>
+
+			<% unless ingredients_hash.keys.include? recipe_ingredient.ingredient.slug %>			
+				<% ingredients_hash[recipe_ingredient.ingredient.slug]={} %>
+				<% UNITS.each do |key,value| %>					
+					<% ingredients_hash[recipe_ingredient.ingredient.slug][key.to_i]=0 %>
+				<% end %>
+			<% end %>
+			<% ingredients_hash[recipe_ingredient.ingredient.slug][recipe_ingredient.unit]+=recipe_ingredient.amount %>			
+		<% end %>		
+	<% end %>
+	<ul>
+		<% ingredients_hash.each do |key,value| %>
+			<li><%= Ingredient.find_by_slug(key).name %>
+			<% value.each do |k,v| %>
+				<% if v>0 %>
+					<%= v %> <%= UNITS[k.to_s] %>
+				<% end %>
+			<% end %>
+			</li>
+		<% end %>
+	</ul>
+</li>
+

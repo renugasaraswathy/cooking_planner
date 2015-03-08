@@ -59,6 +59,11 @@ body{
     border-width: 1px;
     padding: 3px;
 }
+.circular{
+	border-radius: 100px;
+	width: 50px;
+	height: 50px;
+}
 .recipe-desc{
 	min-height: 50px;
 }
@@ -99,4 +104,13 @@ i.danger{
 }
 .label-as-badge {
     border-radius: 1em;
+}
+.li-heading{
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    font-weight: bold;
+    list-style: outside none none;
+    padding: 10px;    
+    text-align: center;
 }

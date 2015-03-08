@@ -7,6 +7,7 @@ class Recipe < ActiveRecord::Base
   	has_many :prerequisites_steps
   	has_many :recipe_steps	
   	has_many :recipe_ingredients    
+    has_many :ingredients,:through=>:recipe_ingredients
     has_many :food_plans
   	has_one :avatar,:as=>:node
     belongs_to :user

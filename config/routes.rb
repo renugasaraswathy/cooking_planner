@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   get 'home'=>'home#index'
   get 'home/join_a_family'=>'home#join_a_family',:as=>'join_a_family_home'
+  get 'plans_on/:date'=>'home#plans_on',:as=>'plans_on'
   resources :families
   get '/family/join'=>'families#join',:as=>'join_family'
   post '/family/joining'=>'families#joining',:as=>'joining_family'

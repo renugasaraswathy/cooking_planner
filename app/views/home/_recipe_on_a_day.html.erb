@@ -1,0 +1,25 @@
+<% FOOD_ROUTINES.each do |id,value| %>
+					<li class="list-group-item col-lg-12 col-md-12">
+
+							<div class='col-lg-12 col-md-12 paddingReset'>
+								<div class='col-lg-4 col-md-4 paddingReset'>
+									<div class='h4 margin-top-md'><%= value %></div>
+								</div>
+								<div class='col-lg-8 col-md-8'>
+									<% plan_of_this_food_type=day_food_plans.where(:food_type=>id) %>
+									<% if plan_of_this_food_type.any? %>
+										
+											<% plan_of_this_food_type.each do |food| %>
+												<div class='margin-top-sm'>
+													<%= recipe_image_tag(food.recipe,'thumb','recipe-pic circular') %>
+													<%= link_to food.recipe.name, food.recipe %>
+												</div>
+											<% end %>
+										
+									<% else %>
+										<div class='margin-top-md'><span class='text-muted'>Not planned yet</span></div>
+									<% end %>	    	
+								</div>	
+							</div>
+					</li>
+<% end %>

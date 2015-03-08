@@ -1,3 +1,127 @@
-Today at a glance for the family
-Recipes today
-Things required today
+<div class='col-lg-12 col-md-12'>
+<div class='panel panel-default'>
+	<div class="panel-heading text-center">
+    	<h3 class="panel-title">Today</h3>
+  	</div>
+  	<div class='panel-body'>
+	<div class='col-lg-5 col-md-5'>
+		<ul class="list-group">
+			<li class='li-heading'>Recipies planned</li>	
+			<%= render :partial=>'recipe_on_a_day',:locals=>{:day_food_plans=>@today_food_plans} %>	
+		</ul>
+	</div>
+	<div class='col-lg-7 col-md-7'>
+		<ul>
+			<li class='li-heading'>Ingredients required</li>
+			<%= render :partial=>'ingredients_for_a_day',:locals=>{:day_food_plans=>@today_food_plans} %>
+		</ul>
+	</div>
+	</div>
+</div>
+</div>
+<div class='col-lg-12 col-md-12 margin-top-md'>
+
+<div class='panel panel-default'>
+	<div class="panel-heading text-center">
+    	<h3 class="panel-title">Tomorrow</h3>
+  	</div>
+  	<div class='panel-body'>
+
+	<div class='col-lg-5 col-md-5'>
+		<ul class="list-group">
+			<li class='li-heading'>Recipies planned tomorrow</li>	
+			<%= render :partial=>'recipe_on_a_day',:locals=>{:day_food_plans=>@tomorrow_food_plans} %>	
+		</ul>
+	</div>
+	<div class='col-lg-7 col-md-7'>
+		<ul>
+			<li class='li-heading'>Ingredients required</li>
+			<%= render :partial=>'ingredients_for_a_day',:locals=>{:day_food_plans=>@tomorrow_food_plans} %>
+		</ul>
+	</div>
+	</div>
+	</div>
+</div>	
+
+<div class='col-lg-12 col-md-12 margin-top-md'>
+<div class='panel panel-default'>
+<div class="panel-heading text-center">
+    	<h3 class="panel-title">This month</h3>
+  	</div>
+  	<div class='panel-body'>
+  		<div id="date-popover" class="popover top"
+                   style="cursor: pointer; display: block; margin-left: 33%; margin-top: -50px; width: 175px;">
+                  <div class="arrow"></div>
+                  <h3 class="popover-title" style="display: none;"></h3>
+
+                  <div id="date-popover-content" class="popover-content"></div>
+              </div>
+              <div id="my-calendar1"></div>
+  	</div>	
+  	</div>
+</div>	
+
+<script type="application/javascript">
+
+				var eventData = [ 
+					<% @planned_dates.each do |date| %>
+                	<% if @planned_dates.index(date)==@planned_dates.count-1 %>
+ 						{"date":"<%= date.strftime('%Y-%m-%d') %>","badge":false,"title":"Example 1"}
+                	<% else %>
+                		{"date":"<%= date.strftime('%Y-%m-%d') %>","badge":false,"title":"Example 1"},
+                	<% end %>
+                <% end %>
+				];
+				var ready2;
+                ready2=function () {
+                    $("#date-popover").popover({html: true, trigger: "manual"});
+                    $("#date-popover").hide();
+                    $("#date-popover").click(function (e) {
+                        $(this).hide();
+                    });
+                    
+                    $("#my-calendar1").zabuto_calendar({
+                		
+                		data: eventData,
+
+                        action: function () {
+                            
+                            var date = $(this).data("date");
+                            var url="/plans_on/"+date;
+                            window.location.assign(url);
+                            //return myDateFunction(this.id, false);
+                        },
+                        action_nav: function () {
+                            return myNavFunction(this.id);
+                        },
+                        legend: [                            
+                            {type: "block", label: "Recipes planned"}
+                        ]                        
+                    });
+                };
+
+                function myDateFunction(id, fromModal) {
+                    $("#date-popover").hide();
+                    if (fromModal) {
+                        $("#" + id + "_modal").modal("hide");
+                    }
+                    var date = $("#" + id).data("date");
+                    var hasEvent = $("#" + id).data("hasEvent");
+                    if (hasEvent && !fromModal) {
+                        return false;
+                    }
+                    $("#date-popover-content").html('You clicked on date ' + date);
+                    $("#date-popover").show();
+                    return true;
+                }
+
+                function myNavFunction(id) {
+                    $("#date-popover").hide();
+                    var nav = $("#" + id).data("navigation");
+                    var to = $("#" + id).data("to");
+                    console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+                }
+
+                $(document).ready(ready2);
+				$(document).on('page:load', ready2);
+            </script>

@@ -10,4 +10,12 @@ class Family < ActiveRecord::Base
 	def add_family_members(user)
 	 self.family_members.create(:user_id=>user.id)
 	end
+
+	def food_plan_for_days(start_date,end_date=nil)
+		if !end_date
+			self.food_plans.where(:day=>start_date)
+		else
+			self.food_plans.where('day>=? and day<=?',start_date,end_date)
+		end
+	end
 end
